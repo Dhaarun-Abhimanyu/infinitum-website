@@ -1,0 +1,33 @@
+const theme = require('./src/settings/theme');
+
+module.exports = {
+  plugins: [
+    // 'gatsby-plugin-jss', // Removed as it is incompatible with Gatsby 5
+    'gatsby-plugin-react-helmet',
+    {
+      resolve: 'gatsby-plugin-manifest',
+      options: {
+        name: 'Soul Extract',
+        short_name: 'Soul Extract',
+        start_url: '/',
+        background_color: '#000000',
+        theme_color: '#000000',
+        display: 'standalone',
+        orientation: 'portrait',
+        icon: 'src/images/favicon.png'
+      }
+    },
+    {
+      resolve: `gatsby-plugin-layout`,
+      options: {
+        component: require.resolve(`./src/layouts/Template`)
+      }
+    },
+    {
+      resolve: 'gatsby-plugin-google-gtag',
+      options: {
+        trackingIds: ['UA-64916263-1']
+      }
+    }
+  ]
+};
