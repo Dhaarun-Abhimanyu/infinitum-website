@@ -266,16 +266,16 @@
 }
 
 .navLeft {
-  left: -60px;
+  left: -100px;
 }
 
 .navRight {
-  right: -60px;
+  right: -100px;
 }
 
 /* Event Counter Container */
 .eventCounterContainer {
-  margin-top: 35px;
+  margin-top: 90px;
   padding-top: 16px;
   border-top: 1px solid rgba(199, 32, 113, 0.3);
   text-align: center;
@@ -466,13 +466,13 @@
 
 .eventImageContainer {
   position: relative;
-  width: 100%;
-  max-width: 500px;
-  aspect-ratio: 1;
+  width: 400px;
+  height: 400px;
   display: flex;
   align-items: center;
   justify-content: center;
   perspective: 1000px;
+  margin: 0 auto;
 }
 
 .eventImage {
@@ -530,7 +530,7 @@
 /* Glowing Platform */
 .platform {
   position: absolute;
-  bottom: -40px;
+  bottom: -65px;
   left: 50%;
   transform: translateX(-50%);
   width: 420px;
@@ -607,11 +607,11 @@
 }
 
 .navLeft {
-  left: -20px;
+  left: -120px;
 }
 
 .navRight {
-  right: -20px;
+  right: -120px;
 }
 
 @media (max-width: 768px) {
@@ -779,14 +779,15 @@
   background-color: rgba(255, 215, 0, 0.3);
   /* Transparent Gold */
   border-radius: 50%;
+  transition: all 0.3s ease;
 }
 
-.swipeDot:nth-child(2) {
+.activeDot {
   background-color: #FFD700;
   /* Gold Theme */
   box-shadow: 0 0 8px #FFD700;
-  width: 8px;
-  height: 8px;
+  width: 24px;
+  border-radius: 4px;
 }
 
 
@@ -884,11 +885,30 @@
 
   .eventName {
     font-size: 22px;
+    margin-bottom: 0;
   }
 
   .tagline {
-    font-size: 13px;
-    margin-bottom: 20px;
+    font-size: 12px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    letter-spacing: 0.05em;
+    padding: 0 20px;
+    max-width: 100%;
+    word-wrap: break-word;
+  }
+
+  .eventHeader {
+    gap: 10px;
+    margin-bottom: 0;
+  }
+
+  .headerContainer {
+    padding: 0 15px;
+  }
+
+  .bracket {
+    gap: 30px;
   }
 
   .bracketCorner {
@@ -940,17 +960,24 @@
   }
 
   .navArrow {
-    width: 46px;
-    height: 46px;
+    width: 40px;
+    height: 40px;
     font-size: 18px;
+    top: 50%;
+    bottom: auto;
+    transform: translateY(-50%);
+  }
+
+  .navArrow:hover {
+    transform: translateY(-50%) scale(1.1);
   }
 
   .navLeft {
-    left: 5px;
+    left: -10px;
   }
 
   .navRight {
-    right: 5px;
+    right: -10px;
   }
 
   .eventCounterContainer {
@@ -1009,6 +1036,18 @@
     width: 20px;
   }
 
+  .eventImageContainer {
+    width: 300px;
+    height: 300px;
+    max-width: 300px;
+    padding-bottom: 60px;
+    /* Space for arrows and dots */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+  }
+
   .eventImage {
     width: 220px;
     height: 220px;
@@ -1019,6 +1058,8 @@
 
   .platform {
     width: 240px;
+    bottom: 10px;
+    /* Adjust platform to be just below image, above controls */
   }
 
   .eventDescription {
@@ -1073,24 +1114,34 @@
     font-size: 16px;
     z-index: 20;
     /* Ensure above images */
+    top: 42%;
+    /* 42% positions at image center, not container center (which includes padding) */
+    bottom: auto;
+    transform: translateY(-50%);
+    background: rgba(10, 10, 10, 0.8);
+    border-color: #c72071;
   }
 
   .mobileSwipeIndicator {
     display: flex;
     /* Visible on mobile */
+    bottom: 0px;
+    /* Positioned at bottom of container padding */
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   .navLeft {
-    left: 2px;
+    left: -50px;
   }
 
   .navRight {
-    right: 2px;
+    right: -50px;
   }
 
   .eventCounterContainer {
-    margin-top: 14px;
-    padding-top: 12px;
+    margin-top: 0;
+    padding-top: 10px;
   }
 
   .eventCounter {
@@ -1618,20 +1669,20 @@
   }
 
   .navLeft {
-    left: -15px;
+    left: -50px;
     /* Position outside the reduced image container */
   }
 
   .navRight {
-    right: -15px;
+    right: -50px;
     /* Position outside the reduced image container */
   }
 
   /* Ensure image container is smaller so arrows don't overlap */
   /* Ensure image container is smaller so arrows don't overlap */
   .eventImageContainer {
-    width: 60% !important;
-    /* Significantly reduced width to create side gutters */
+    width: 250px !important;
+    height: 250px !important;
     max-width: 250px;
     margin: 0 auto;
     /* Centered */

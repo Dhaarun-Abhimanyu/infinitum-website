@@ -152,10 +152,12 @@ export default function EventShowcase({ sounds }) {
                     <div className={styles.eventImageContainer}>
                         {/* Mobile Swipe Indicator (Dots) */}
                         <div className={styles.mobileSwipeIndicator}>
-                            <span className={styles.swipeDot}></span>
-                            <span className={styles.swipeDot}></span>
-                            <span className={styles.swipeDot}></span>
-                            <span className={styles.swipeDot}></span>
+                            {eventsData.map((_, index) => (
+                                <span
+                                    key={index}
+                                    className={`${styles.swipeDot} ${index === activeEventIndex ? styles.activeDot : ''}`}
+                                ></span>
+                            ))}
                         </div>
 
                         {/* Navigation Arrows - Using absolute positioning relative to this container which hugs the image */}
