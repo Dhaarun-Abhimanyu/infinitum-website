@@ -22,7 +22,8 @@
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-helmet": "^6.1.0",
-    "react-jss": "^10.10.0"
+    "react-jss": "^10.10.0",
+    "three": "^0.182.0"
   },
   "devDependencies": {
     "@types/node": "25.0.3",
