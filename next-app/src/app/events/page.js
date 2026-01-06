@@ -35,21 +35,36 @@ const styles = theme => ({
         flex: '0 0 280px',
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'flex-start',
-        marginLeft: -30,
+        alignItems: 'center',
         position: 'relative',
-        overflow: 'hidden',
+        overflow: 'visible',
         '@media (max-width: 900px)': {
             flex: '0 0 auto',
             width: '100%',
-            marginLeft: 0,
             alignItems: 'center',
         },
+    },
+    // Container that holds the card and arrows, centered in the panel
+    imageWithNav: {
+        display: 'flex',
+        justifyContent: 'center',
+        width: '100%',
+        paddingTop: 50,
+        '@media (max-width: 900px)': {
+            paddingTop: 40,
+        },
+    },
+    // The relative anchor for the arrows and card
+    relativeContainer: {
+        position: 'relative',
+        width: 'fit-content', // Hug the card width
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     // Image slide transition container
     imageSlider: {
         position: 'relative',
-        width: '100%',
         transition: 'transform 0.4s ease-out',
     },
     // Slide animation classes
@@ -67,6 +82,62 @@ const styles = theme => ({
         // No maxHeight or overflow - let page scroll naturally
         '@media (max-width: 900px)': {
             width: '100%',
+        },
+    },
+    // Navigation arrow buttons on sides of image
+    navArrow: {
+        position: 'absolute',
+        top: '50%', // Centered vertically
+        transform: 'translateY(-50%)',
+        width: 40,
+        height: 40,
+        border: `2px solid ${theme.color.primary.dark}`,
+        borderRadius: '50%', // Circle shape
+        backgroundColor: 'rgba(0, 0, 0, 0.6)',
+        color: theme.color.primary.main,
+        cursor: 'pointer',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontSize: 18,
+        fontWeight: 'bold',
+        transition: 'all 0.3s ease',
+        zIndex: 20, // Higher z-index to be on top of image
+        '&:hover': {
+            backgroundColor: theme.color.primary.dark,
+            color: theme.color.text.primary,
+            transform: 'translateY(-50%) scale(1.1)',
+            boxShadow: `0 0 15px ${theme.color.primary.main}`,
+        },
+        '&:active': {
+            transform: 'translateY(-50%) scale(0.95)',
+        },
+        '&:disabled': {
+            opacity: 0.3,
+            cursor: 'not-allowed',
+            '&:hover': {
+                backgroundColor: 'transparent',
+                transform: 'translateY(-50%)',
+                boxShadow: 'none',
+            },
+        },
+        '@media (max-width: 900px)': {
+            width: 36,
+            height: 36,
+            fontSize: 16,
+            backgroundColor: 'rgba(0, 0, 0, 0.8)', // Darker on mobile for visibility
+        },
+    },
+    navArrowLeft: {
+        left: -20, // Overlap the left edge
+        '@media (max-width: 900px)': {
+            left: -10,
+        },
+    },
+    navArrowRight: {
+        right: -20, // Overlap the right edge
+        '@media (max-width: 900px)': {
+            right: -10,
         },
     },
     loading: {
@@ -228,7 +299,7 @@ class Events extends React.Component {
         const { events } = this.state;
 
         this.setState({ selectedIndex: index, slideDirection: direction });
-        
+
         if (events[index]) {
             this.fetchEventDetails(events[index].eventId);
         }
@@ -309,32 +380,56 @@ class Events extends React.Component {
         return (
             <Main className={classes.root} noFrame>
                 <Secuence stagger>
-                    {/* Top Center Navigation with Event Name - moved up */}
-                    <div className={classes.navHeaderWrapper}>
-                        <EventNavHeader
-                            eventName={currentEvent.eventName}
-                            category={currentEvent.category}
-                            currentIndex={selectedIndex}
-                            totalEvents={events.length}
-                            onPrev={this.handlePrev}
-                            onNext={this.handleNext}
-                            canNavigate={events.length > 1}
-                        />
-                    </div>
-
                     {/* Main Layout: Left Image | Right Details */}
                     <div className={classes.layoutContainer}>
-                        {/* Left: Image only (no background, moved left) */}
+                        {/* Left: Image with nav arrows on sides */}
                         <div className={classes.leftPanel}>
-                            <div className={`${classes.imageSlider} ${slideClass}`}>
-                                <EventImage
-                                    key={`event-image-${selectedIndex}`}
-                                    event={currentEvent}
+                            {/* Event name header */}
+                            <div className={classes.navHeaderWrapper}>
+                                <EventNavHeader
+                                    eventName={currentEvent.eventName}
+                                    category={currentEvent.category}
+                                    currentIndex={selectedIndex}
+                                    totalEvents={events.length}
+                                    onPrev={this.handlePrev}
+                                    onNext={this.handleNext}
+                                    canNavigate={events.length > 1}
+                                    hideArrows={true}
                                 />
+                            </div>
+
+                            {/* Image with arrows on sides */}
+                            <div className={classes.imageWithNav}>
+                                <div className={classes.relativeContainer}>
+                                    <button
+                                        className={`${classes.navArrow} ${classes.navArrowLeft}`}
+                                        onClick={this.handlePrev}
+                                        disabled={events.length <= 1}
+                                        aria-label="Previous event"
+                                    >
+                                        ←
+                                    </button>
+
+                                    <div className={`${classes.imageSlider} ${slideClass}`}>
+                                        <EventImage
+                                            key={`event-image-${selectedIndex}`}
+                                            event={currentEvent}
+                                        />
+                                    </div>
+
+                                    <button
+                                        className={`${classes.navArrow} ${classes.navArrowRight}`}
+                                        onClick={this.handleNext}
+                                        disabled={events.length <= 1}
+                                        aria-label="Next event"
+                                    >
+                                        →
+                                    </button>
+                                </div>
                             </div>
                         </div>
 
-                        {/* Right: Details with background (single page scroll) */}
+                        {/* Right: Details with background */}
                         <div className={classes.rightPanel}>
                             <EventDetails
                                 key={`event-details-${selectedIndex}`}
