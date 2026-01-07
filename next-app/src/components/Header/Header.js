@@ -92,11 +92,17 @@ class Component extends React.Component {
   checkUrlChange = () => {
     const currentUrl = window.location.href;
     if (currentUrl !== this.lastUrl) {
+      const lastPathname = new URL(this.lastUrl).pathname;
+      const currentPathname = new URL(currentUrl).pathname;
       this.lastUrl = currentUrl;
-      // Trigger redraw and enter animation on URL change
-      this.draw(() => {
-        this.enter();
-      });
+
+      // Only trigger animation if the pathname changed, not just query params
+      // This prevents re-animation when switching between auth components
+      if (currentPathname !== lastPathname) {
+        this.draw(() => {
+          this.enter();
+        });
+      }
     }
   }
 
