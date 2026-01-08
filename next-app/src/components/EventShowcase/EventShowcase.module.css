@@ -964,6 +964,11 @@
   /* Order: 1. Image/Center, 2. Left Stats, 3. Right Stats */
   .eventDisplay {
     order: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 
   /* We need to target specific stats panels based on order in DOM or structure */
