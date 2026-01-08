@@ -1,6 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { Howler } from 'howler';
 
 const SoundContext = createContext(null);
 
@@ -11,9 +12,17 @@ export function SoundProvider({ children }) {
     useEffect(() => {
         const stored = localStorage.getItem('soundMuted');
         if (stored !== null) {
-            setIsMuted(stored === 'true');
+            const muted = stored === 'true';
+            setIsMuted(muted);
+            // Sync Howler global mute on initial load
+            Howler.mute(muted);
         }
     }, []);
+
+    // Sync Howler global mute whenever isMuted changes
+    useEffect(() => {
+        Howler.mute(isMuted);
+    }, [isMuted]);
 
     // Save mute state to localStorage
     const toggleMute = useCallback(() => {
@@ -38,3 +47,4 @@ export function useSound() {
     }
     return context;
 }
+

@@ -4,6 +4,7 @@ import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import { eventService } from '@/services/eventservice';
 import { useAuth } from '@/context/AuthContext';
+import { useSound } from '@/context/SoundContext';
 import { eventsData, workshopsData, papersData } from '@/data/eventsData';
 import { CometCard } from '@/components/ui/comet-card';
 import styles from './EventShowcase.module.css';
@@ -11,6 +12,7 @@ import styles from './EventShowcase.module.css';
 export default function EventShowcase({ sounds, initialEventId }) {
     const searchParams = useSearchParams();
     const { isAuthenticated, user } = useAuth();
+    const { isMuted } = useSound();
     const [category, setCategory] = useState(searchParams.get('category') || 'events');
 
     // Determine effective event ID from props or URL
@@ -231,9 +233,11 @@ export default function EventShowcase({ sounds, initialEventId }) {
     }, [isModalOpen, sounds]);
 
     const openModal = () => {
-        const audio = new Audio('/sounds/expand.mp3');
-        audio.volume = 0.5;
-        audio.play().catch(e => console.error("Audio play failed", e));
+        if (!isMuted) {
+            const audio = new Audio('/sounds/expand.mp3');
+            audio.volume = 0.5;
+            audio.play().catch(e => console.error("Audio play failed", e));
+        }
         setIsModalOpen(true);
     };
 
@@ -491,7 +495,7 @@ export default function EventShowcase({ sounds, initialEventId }) {
                     <span className={`${styles.corner} ${styles.cornerTopRight}`}></span>
                     <span className={`${styles.corner} ${styles.cornerBottomLeft}`}></span>
                     <span className={`${styles.corner} ${styles.cornerBottomRight}`}></span>
-                    
+
                     <h1 className={`${styles.eventName} ${isTransitioning ? styles.fadeOut : styles.fadeIn} `}>
                         {currentEvent.eventName}
                     </h1>
