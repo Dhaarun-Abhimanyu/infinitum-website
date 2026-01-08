@@ -324,6 +324,11 @@ export default function CircularMenu() {
         if (Math.abs(deltaAngle) > 5) {
             isDraggingRef.current = true;
             setIsDragging(true); // Disable icon transitions
+            
+            // Play rotation sound while dragging
+            if (rotateSound && !rotateSound.playing()) {
+                rotateSound.play();
+            }
         }
         
         const newRotation = touchStartRef.current.rotation + deltaAngle;
