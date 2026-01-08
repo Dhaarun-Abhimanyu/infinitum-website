@@ -1125,7 +1125,7 @@ class ProfilePage extends React.Component {
                                                     <div className={classes.fieldValue} style={{whiteSpace: 'normal', lineHeight: 1.4}}>{user.college}</div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> 
 
                                         {/* QR Side (Desktop only now) */}
                                         {!isMobile && (
