@@ -13,6 +13,7 @@ const MENU_ITEMS = [
     { label: 'Schedule', icon: 'ri-calendar-line', href: '/schedule', match: ['/schedule'] },
     { label: 'Workshops', icon: 'ri-tools-line', href: '/events?category=workshops', match: ['/events?category=workshops'] },
     { label: 'Papers', icon: 'ri-article-line', href: '/events?category=papers', match: ['/events?category=papers'] },
+    { label: 'About', icon: 'ri-information-line', href: '/about', match: ['/about'] }
 ];
 
 // Sound effects
@@ -73,7 +74,7 @@ export default function CircularMenu() {
         // Check if user has seen the menu hint before
         const hasSeenHint = localStorage.getItem('menu_hint_seen');
         const hasSeenDesktopHint = localStorage.getItem('menu_desktop_hint_seen');
-        
+
         if (!hasSeenHint && window.innerWidth <= 768) {
             // Show mobile hint immediately and keep it until user clicks
             setShowHint(true);
@@ -87,13 +88,13 @@ export default function CircularMenu() {
 
     useEffect(() => {
         if (!isMounted) return;
-        
+
         // Build full path with search params
         let fullPath = pathname;
         if (typeof window !== 'undefined') {
             fullPath = window.location.pathname + window.location.search;
         }
-        
+
         // Find matching menu item
         const index = MENU_ITEMS.findIndex(item => {
             if (!item.match) return item.href === fullPath;
@@ -113,11 +114,11 @@ export default function CircularMenu() {
                 return false;
             });
         });
-        
+
         if (index !== -1) {
             setActiveIndex(index);
             setSelectedIndex(index);
-            
+
             // Rotate wheel to show active page at top (only on initial mount)
             const segmentAngle = 360 / MENU_ITEMS.length;
             const targetRotation = -index * segmentAngle;
